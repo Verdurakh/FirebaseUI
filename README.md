@@ -74,7 +74,7 @@ Start by enabling the google provider for now.
 
 Now back to Android studio and go to your main acitivty.
 In the onCreate event we first need to check if we are aldready signed in.
-```
+```java
   FirebaseAuth auth = FirebaseAuth.getInstance();
      if (auth.getCurrentUser() != null) {
        // already signed in
@@ -87,7 +87,7 @@ Add the sign in code as a constant in the class as:
 private static final int RC_SIGN_IN = 9001;
 
 then in the else clause you can add:
-```
+```java
     // not signed in
     startActivityForResult(
         AuthUI.getInstance()
@@ -99,7 +99,7 @@ then in the else clause you can add:
         RC_SIGN_IN);
 ```
 And then we need to add the method:
-```
+```java
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
       super.onActivityResult(requestCode, resultCode, data);
       if (requestCode == RC_SIGN_IN) {
@@ -136,11 +136,11 @@ implements View.OnClickListener
 it should now look like:
    public class MainActivity extends AppCompatActivity implements View.OnClickListener  {
 We also need to wire up the button to this class as an click listener so in the oncreate add the following:
-```
+```java
    findViewById(R.id.signOut).setOnClickListener(this);
 ```
 Now we can add the event that handles all clicks:
-```
+```java
     @Override
     public void onClick(View v) {
       switch (v.getId()) {
@@ -153,7 +153,7 @@ Now we can add the event that handles all clicks:
 ```
 and finally we add an signOut method:
 
-```
+```java
     private void signOut(){
       AuthUI.getInstance()
               .signOut(this)
@@ -179,7 +179,7 @@ We Just need to make one small change to make that happen easy.
 In the onCreate method
 We added code for signing in under the //not signed in.
 we take that code and create a new method that contains the code needed to sign in. like:
-```
+```java
     private void signIn(){
       startActivityForResult(
               AuthUI.getInstance()
@@ -191,7 +191,7 @@ we take that code and create a new method that contains the code needed to sign 
     }
 ```
 and then we call this method both from the onCreate
-```
+```java
     // not signed in
     signIn();
 ```
@@ -220,7 +220,7 @@ In the Valid OAuth redirect URIs add the url that you got from firebase and save
 Now we should be set. go back to Android studio and go to the sign in method.
 
 Add the facebook Provider
-```
+```java
     private void signIn(){
       startActivityForResult(
               AuthUI.getInstance()
@@ -239,14 +239,14 @@ and run your app.
 You should now also see and Sign in With Facebook button, you can now try to sign in with facebook.
 what happend to me when I tried to log in with facebook is that I got stuck in a endless loading animation. It might be that this is due to facebook taking some time to be set up and I will try again later and see if it works.
 I tried setting a break point in this method:
-```
+```java
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
       super.onActivityResult(requestCode, resultCode, data);
       if (requestCode == RC_SIGN_IN) {
 ```
 but I got no hit and no useful info from logcat. I’ll be back later when I have solved it.
 Ok seems that I forgot one thing that was hidden in the documentation. To Use facebook login I need to create a string entry into the strings.xml like this:
-```
+```java
     <string name="facebook_application_id" translatable="false">YOUR_APP_ID</string>
 ```
 The app id that you use is the same as the one we put into firebase before from the facebook app page.
@@ -271,7 +271,7 @@ So i took the new hash and entered it in facebook admin page and now it is worki
 Problems:
 
 The  guide on google wanted the sign out method to look like this:
-```
+```java
     AuthUI.getInstance()
           .signOut(this)
           .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -286,7 +286,7 @@ But this gave me an wierd error in the ide
 
 But this was misleading and although the syntax was in error there was also problems with the new OnCompleteListener<AuthResult>
 if we changed the code to the following it works:
-```
+```java
     private void signOut(){
       AuthUI.getInstance()
               .signOut(this)
