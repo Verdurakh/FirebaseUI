@@ -75,13 +75,13 @@ Start by enabling the google provider for now.
 Now back to Android studio and go to your main acitivty.
 In the onCreate event we first need to check if we are aldready signed in.
 ```
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-           if (auth.getCurrentUser() != null) {
-             // already signed in
-           } else {
-             // not signed in
-           }
-           ```
+  FirebaseAuth auth = FirebaseAuth.getInstance();
+     if (auth.getCurrentUser() != null) {
+       // already signed in
+     } else {
+       // not signed in
+     }
+```
 we are going to add the basic version with google provider if the user is not already signed in.
 Add the sign in code as a constant in the class as:
 private static final int RC_SIGN_IN = 9001;
@@ -123,13 +123,13 @@ You should come to a screen that looks something like this:
 
 Now to get this moving we also need a log out button.
 Do do that we can use out activity_main and create a simple button:
-    ```
+```
     <Button
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:id="@+id/signOut"
       android:text="Sign Out!"/>
-      ```
+```
 To Handle the buttonpresses we can easily make our whole activity an onclicklistener and handle everything at one place.
 Therefore we need our activity to implement the interface. Add this to your public class declaration
 implements View.OnClickListener
