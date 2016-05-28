@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">FirebaseUi</string>
+    <string name="sign_in_with_google">Sign in with Anti Google</string>
+    <string name="facebook_application_id" translatable="false">993847597350938</string>
+</resources>
