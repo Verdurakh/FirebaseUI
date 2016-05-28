@@ -76,42 +76,42 @@ Now back to Android studio and go to your main acitivty.
 In the onCreate event we first need to check if we are aldready signed in.
 
 FirebaseAuth auth = FirebaseAuth.getInstance();
-if (auth.getCurrentUser() != null) {
-  // already signed in
-} else {
-  // not signed in
-}
+   if (auth.getCurrentUser() != null) {
+     // already signed in
+   } else {
+     // not signed in
+   }
 we are going to add the basic version with google provider if the user is not already signed in.
 Add the sign in code as a constant in the class as:
 private static final int RC_SIGN_IN = 9001;
 
 then in the else clause you can add:
-// not signed in
-startActivityForResult(
-       AuthUI.getInstance()
-               .createSignInIntentBuilder()
-               .setProviders(
-
-                       AuthUI.GOOGLE_PROVIDER
-)
-               .build(),
-       RC_SIGN_IN);
+   // not signed in
+   startActivityForResult(
+          AuthUI.getInstance()
+                  .createSignInIntentBuilder()
+                  .setProviders(
+   
+                          AuthUI.GOOGLE_PROVIDER
+   )
+                  .build(),
+          RC_SIGN_IN);
 
 And then we need to add the method:
 
-protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-   super.onActivityResult(requestCode, resultCode, data);
-   if (requestCode == RC_SIGN_IN) {
-       if (resultCode == RESULT_OK) {
-           // user is signed in!
-           
-           //finish();
-       } else {
-           // user is not signed in. Maybe just wait for the user to press
-           // "sign in" again, or show a message
-       }
+   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+      super.onActivityResult(requestCode, resultCode, data);
+      if (requestCode == RC_SIGN_IN) {
+          if (resultCode == RESULT_OK) {
+              // user is signed in!
+              
+              //finish();
+          } else {
+              // user is not signed in. Maybe just wait for the user to press
+              // "sign in" again, or show a message
+          }
+      }
    }
-}
 
 And this is basically all that is needed to handle sign in with google!
 
@@ -123,48 +123,48 @@ You should come to a screen that looks something like this:
 Now to get this moving we also need a log out button.
 Do do that we can use out activity_main and create a simple button:
 
-<Button
-   android:layout_width="wrap_content"
-   android:layout_height="wrap_content"
-   android:id="@+id/signOut"
-   android:text="Sign Out!"/>
+   <Button
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:id="@+id/signOut"
+      android:text="Sign Out!"/>
 To Handle the buttonpresses we can easily make our whole activity an onclicklistener and handle everything at one place.
 Therefore we need our activity to implement the interface. Add this to your public class declaration
 implements View.OnClickListener
 it should now look like:
-public class MainActivity extends AppCompatActivity implements View.OnClickListener  {
+   public class MainActivity extends AppCompatActivity implements View.OnClickListener  {
 We also need to wire up the button to this class as an click listener so in the oncreate add the following:
-findViewById(R.id.signOut).setOnClickListener(this);
+   findViewById(R.id.signOut).setOnClickListener(this);
 
 Now we can add the event that handles all clicks:
-@Override
-public void onClick(View v) {
-   switch (v.getId()) {
-       case R.id.signOut:
-           signOut();
-           break;
-
+   @Override
+   public void onClick(View v) {
+      switch (v.getId()) {
+          case R.id.signOut:
+              signOut();
+              break;
+   
+      }
    }
-}
 
 and finally we add an signOut method:
 
 
-private void signOut(){
-   AuthUI.getInstance()
-           .signOut(this)
-           .addOnCompleteListener(new OnCompleteListener<Void>() {
-               @Override
-               public void onComplete(@NonNull Task<Void> task) {
-                   if (task.isSuccessful()) {
-                       //logged out
-                       
-                   } else {
-                      //fail?
-                   }
-               }
-           });
-}
+   private void signOut(){
+      AuthUI.getInstance()
+              .signOut(this)
+              .addOnCompleteListener(new OnCompleteListener<Void>() {
+                  @Override
+                  public void onComplete(@NonNull Task<Void> task) {
+                      if (task.isSuccessful()) {
+                          //logged out
+                          
+                      } else {
+                         //fail?
+                      }
+                  }
+              });
+   }
 
 
 
@@ -188,19 +188,19 @@ In the onCreate method
 We added code for signing in under the //not signed in.
 we take that code and create a new method that contains the code needed to sign in. like:
 
-private void signIn(){
-   startActivityForResult(
-           AuthUI.getInstance()
-                   .createSignInIntentBuilder()
-                   .setProviders(
-                           AuthUI.GOOGLE_PROVIDER)
-                   .build(),
-           RC_SIGN_IN);
-}
+   private void signIn(){
+      startActivityForResult(
+              AuthUI.getInstance()
+                      .createSignInIntentBuilder()
+                      .setProviders(
+                              AuthUI.GOOGLE_PROVIDER)
+                      .build(),
+              RC_SIGN_IN);
+   }
 
 and then we call this method both from the onCreate
-// not signed in
-signIn();
+   // not signed in
+   signIn();
 
 
 Now when you sign in you should be promted to log back in again :)
@@ -227,17 +227,17 @@ In the Valid OAuth redirect URIs add the url that you got from firebase and save
 Now we should be set. go back to Android studio and go to the sign in method.
 
 Add the facebook Provider
-private void signIn(){
-   startActivityForResult(
-           AuthUI.getInstance()
-                   .createSignInIntentBuilder()
-                   .setTheme(R.style.GreenTheme)
-                   .setProviders(
-                           AuthUI.GOOGLE_PROVIDER,
-                           AuthUI.FACEBOOK_PROVIDER)
-                   .build(),
-           RC_SIGN_IN);
-}
+   private void signIn(){
+      startActivityForResult(
+              AuthUI.getInstance()
+                      .createSignInIntentBuilder()
+                      .setTheme(R.style.GreenTheme)
+                      .setProviders(
+                              AuthUI.GOOGLE_PROVIDER,
+                              AuthUI.FACEBOOK_PROVIDER)
+                      .build(),
+              RC_SIGN_IN);
+   }
 
 
 and run your app.
@@ -245,14 +245,14 @@ and run your app.
 You should now also see and Sign in With Facebook button, you can now try to sign in with facebook.
 what happend to me when I tried to log in with facebook is that I got stuck in a endless loading animation. It might be that this is due to facebook taking some time to be set up and I will try again later and see if it works.
 I tried setting a break point in this method:
-protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-   super.onActivityResult(requestCode, resultCode, data);
-   if (requestCode == RC_SIGN_IN) {
+   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+      super.onActivityResult(requestCode, resultCode, data);
+      if (requestCode == RC_SIGN_IN) {
 
 but I got no hit and no useful info from logcat. I’ll be back later when I have solved it.
 Ok seems that I forgot one thing that was hidden in the documentation. To Use facebook login I need to create a string entry into the strings.xml like this:
 
-<string name="facebook_application_id" translatable="false">YOUR_APP_ID</string>
+   <string name="facebook_application_id" translatable="false">YOUR_APP_ID</string>
 
 The app id that you use is the same as the one we put into firebase before from the facebook app page.
 It is a bit strange that firebase ui doesnt supply any feedback on this and is just stuck at loading.
@@ -264,9 +264,9 @@ Atleast I got a message from facebook this time:
 
 hmm ok I guess back to the facebook admin page
 
-keytool.exe -exportcert -alias androiddebugkey -keystore c:\keystore\debug.keystore -list -v | e:\bin\openssl.exe sha1 -binary | e:\bin\openssl.exe base64
+   keytool.exe -exportcert -alias androiddebugkey -keystore c:\keystore\debug.keystore -list -v | e:\bin\openssl.exe sha1 -binary | e:\bin\openssl.exe base64
 
-https://code.google.com/archive/p/openssl-for-windows/downloads
+   https://code.google.com/archive/p/openssl-for-windows/downloads
 
 still didnt work, I guess that i got the wrong hash from the keytool, but this time the app gave me the hash that I should use in a message like “this hash is not okay blah blah”.
 So i took the new hash and entered it in facebook admin page and now it is working :)
@@ -276,33 +276,33 @@ So i took the new hash and entered it in facebook admin page and now it is worki
 Problems:
 
 The  guide on google wanted the sign out method to look like this:
-AuthUI.getInstance()
-       .signOut(this)
-       .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-           public void onComplete(@NonNull Task<AuthResult> task) {
-               // user is now signed out
-               startActivity(new Intent(MainActivity.this, SignInActivity.class));
-               finish();
-           });
-       });
+   AuthUI.getInstance()
+          .signOut(this)
+          .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+              public void onComplete(@NonNull Task<AuthResult> task) {
+                  // user is now signed out
+                  startActivity(new Intent(MainActivity.this, SignInActivity.class));
+                  finish();
+              });
+          });
 
 But this gave me an wierd error in the ide
 
 But this was misleading and although the syntax was in error there was also problems with the new OnCompleteListener<AuthResult>
 if we changed the code to the following it works:
-private void signOut(){
-   AuthUI.getInstance()
-           .signOut(this)
-           .addOnCompleteListener(new OnCompleteListener<Void>() {
-               @Override
-               public void onComplete(@NonNull Task<Void> task) {
-                   if (task.isSuccessful()) {
-                       //logged out
-                       
-                   } else {
-                      //fail?
-                   }
-               }
-           });
-}
+   private void signOut(){
+      AuthUI.getInstance()
+              .signOut(this)
+              .addOnCompleteListener(new OnCompleteListener<Void>() {
+                  @Override
+                  public void onComplete(@NonNull Task<Void> task) {
+                      if (task.isSuccessful()) {
+                          //logged out
+                          
+                      } else {
+                         //fail?
+                      }
+                  }
+              });
+   }
 
